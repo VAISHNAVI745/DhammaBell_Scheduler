@@ -1,10 +1,11 @@
+// scheduler.js — checks the clock every second and fires any enabled bell
+// scheduled for TODAY (independent of whatever day is being edited in the
+// UI), unless bells are currently paused.
+
 let lastCheckedMinute = null;
 
-function isHolidayActive() {
-  const period = loadData('holidayPause', null);
-  if (!period) return false;
-  const today = new Date().toISOString().split('T')[0];
-  return today >= period.fromDate && today <= period.toDate;
+function isPaused() {
+  return loadData('bellsPaused', false);
 }
 
 function checkBells() {
@@ -12,14 +13,14 @@ function checkBells() {
   const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   const minuteKey = `${now.toDateString()} ${currentTime}`;
 
-  if (minuteKey === lastCheckedMinute) return;
+  if (minuteKey === lastCheckedMinute) return; // already handled this minute
   lastCheckedMinute = minuteKey;
 
-  if (isHolidayActive()) return;
+  if (isPaused()) return;
 
-  const dueBell = getBells().find(b => b.enabled && b.time === currentTime);
+  const dueBell = getTodaysBells().find(b => b.enabled && b.time === currentTime);
   if (dueBell) showAlarmRingOverlay(dueBell);
 }
 
 setInterval(checkBells, 1000);
-checkBells();
+checkBells(); // catch a bell whose time is right now, at page load

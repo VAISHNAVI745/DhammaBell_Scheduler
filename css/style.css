@@ -102,17 +102,8 @@ label { display: block; font-size: 0.8rem; color: #6b6252; margin-bottom: 6px; f
 .btn-row { display: flex; gap: 10px; margin-top: 6px; }
 .btn-row .btn { flex: 1; }
 
-.status-banner {
-  background-color: #fdf3d9;
-  border: 1px solid #d4af37;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 0.82rem;
-  color: #6b5a1f;
-  margin-bottom: 12px;
-}
-
-.status-banner.active-now { background-color: #e7f5ec; border-color: #2f8f5b; color: #1f5c39; }
+.field-row { display: flex; gap: 10px; }
+.field-row > div { flex: 1; }
 
 /* ===== Bell Schedule header + FAB ===== */
 .section-header-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
@@ -148,6 +139,7 @@ label { display: block; font-size: 0.8rem; color: #6b6252; margin-bottom: 6px; f
 }
 
 .bell-item.disabled { opacity: 0.5; }
+.bell-item.next-bell { border: 1px solid #2f8f5b; border-left: 3px solid #2f8f5b; cursor: default; }
 .bell-item-info { display: flex; flex-direction: column; }
 .bell-item-time { font-weight: 700; color: #0f4c5c; font-size: 1.6rem; letter-spacing: 0.5px; }
 .bell-item-time .ampm { font-size: 0.95rem; font-weight: 600; margin-left: 4px; color: #146b7a; }
@@ -243,7 +235,7 @@ label { display: block; font-size: 0.8rem; color: #6b6252; margin-bottom: 6px; f
 .alarm-ring-label { font-size: 1.1rem; color: #cfe8e4; margin-top: 6px; margin-bottom: 36px; }
 .alarm-stop-btn { width: 200px; padding: 18px; font-size: 1.2rem; border-radius: 50px; margin: 0 auto; }
 
-/* ===== Today's Timetable status pills ===== */
+/* ===== Status pills ===== */
 .status-pill {
   font-size: 0.72rem;
   font-weight: 600;
@@ -257,6 +249,103 @@ label { display: block; font-size: 0.8rem; color: #6b6252; margin-bottom: 6px; f
 .status-rung { background-color: #efece3; color: #8a7f6a; }
 .status-disabled { background-color: #efece3; color: #b0a68e; text-decoration: line-through; }
 .status-paused { background-color: #fdf3d9; color: #6b5a1f; }
+.status-scheduled { background-color: #f2ecd9; color: #7a6a3a; }
+.status-past { background-color: #efece3; color: #a89d84; }
 
 /* ===== Utility ===== */
 .mt-10 { margin-top: 10px; }
+
+/* ===== Day tabs (Custom Range profile editor) ===== */
+.day-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  margin-top: 8px;
+}
+
+.day-tab {
+  flex: 0 0 auto;
+  background-color: #faf6ec;
+  border: 1px solid #d4c9a8;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #4a4436;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.day-tab.active {
+  background: linear-gradient(135deg, #0f4c5c, #146b7a);
+  border-color: #0f4c5c;
+  color: #fdf6e3;
+}
+
+.day-tab-count {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 400;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* ===== Schedule Overview — horizontal day columns (Custom Range profiles) ===== */
+.schedule-days-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x proximity;
+}
+
+.schedule-day-col {
+  flex: 0 0 200px;
+  scroll-snap-align: start;
+  background-color: #faf6ec;
+  border: 1px solid #e8dfc8;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.schedule-day-col.is-today { border: 1px solid #2f8f5b; }
+
+.schedule-day-col-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e8dfc8;
+  margin-bottom: 2px;
+}
+
+.schedule-day-col-title { font-size: 0.8rem; font-weight: 700; color: #0f4c5c; }
+
+.schedule-day-col-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0f4c5c, #146b7a);
+  color: #fdf6e3;
+}
+
+.schedule-day-col .bell-item {
+  padding: 8px 10px;
+  cursor: default;
+}
+
+.schedule-day-col .bell-item-time { font-size: 1.1rem; }
+.schedule-day-col .bell-item-meta { font-size: 0.7rem; }
+.schedule-day-col .status-pill { font-size: 0.62rem; padding: 2px 7px; }
+
+.schedule-day-col-empty {
+  font-size: 0.74rem;
+  color: #a89d84;
+  padding: 4px 2px;
+}

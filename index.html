@@ -24,28 +24,13 @@
     </section>
 
     <section class="quick-actions">
-      <button id="pause-today-btn" class="btn btn-pause">Pause Bells for Today</button>
+      <button id="pause-btn" class="btn btn-pause">Pause</button>
     </section>
 
     <section class="card">
-      <h2>📅 Holiday / Vacation Pause</h2>
-      <p class="section-desc">No scheduled bells will ring during this period. Bells resume automatically after the end date.</p>
-
-      <label for="holiday-from-date">From Date</label>
-      <input type="date" id="holiday-from-date" />
-
-      <label for="holiday-to-date">To Date</label>
-      <input type="date" id="holiday-to-date" />
-
-      <label for="holiday-reason">Reason (Optional)</label>
-      <input type="text" id="holiday-reason" placeholder="e.g. Summer Vacation" />
-
-      <div id="holiday-status-banner" class="status-banner" style="display:none;"></div>
-
-      <div class="btn-row">
-        <button id="set-holiday-btn" class="btn btn-primary">Set Period</button>
-        <button id="remove-holiday-btn" class="btn btn-secondary">Remove Period</button>
-      </div>
+      <h2>⏭️ Next Bell</h2>
+      <p class="section-desc">The next few bells coming up in this profile.</p>
+      <div id="next-bell-list" class="bell-list"></div>
     </section>
 
     <section class="card">
@@ -60,13 +45,37 @@
         <button id="rename-profile-btn" class="btn btn-secondary">Rename</button>
         <button id="delete-profile-btn" class="btn btn-danger">Delete</button>
       </div>
+
+      <label for="schedule-type-select">Schedule Type</label>
+      <select id="schedule-type-select">
+        <option value="daily">Every Day (same bells daily)</option>
+        <option value="range">Custom Range (set bells per day)</option>
+      </select>
+
+      <div id="date-range-fields" style="display:none;">
+        <div class="field-row">
+          <div>
+            <label for="range-num-days">Number of Days</label>
+            <input type="number" id="range-num-days" min="1" max="60" placeholder="e.g. 10" />
+          </div>
+          <div>
+            <label for="range-start-date">Start Date</label>
+            <input type="date" id="range-start-date" />
+          </div>
+        </div>
+
+        <button id="apply-range-btn" class="btn btn-primary">Apply</button>
+        <p class="section-desc">Re-applying with a new Start Date keeps your Day 1…Day N bells — it just shifts which real dates they fall on.</p>
+
+        <div id="day-tabs" class="day-tabs"></div>
+      </div>
     </section>
 
     <section class="card bell-schedule-card">
       <div class="section-header-row">
         <div>
           <h2>🔔 Bell Schedule</h2>
-          <p class="section-desc">Bells ring automatically at their set time.</p>
+          <p id="bell-schedule-subtitle" class="section-desc">Bells ring automatically at their set time.</p>
         </div>
         <button id="open-add-bell-btn" class="btn-fab" aria-label="Add Bell">+</button>
       </div>
@@ -74,14 +83,14 @@
     </section>
 
     <section class="card">
-      <h2>📋 Today's Timetable</h2>
-      <p class="section-desc">All bells scheduled for today, in order, with their current status.</p>
+      <h2>📋 Schedule Overview</h2>
+      <p class="section-desc">Every bell in this profile — for a Custom Range, shown day by day.</p>
       <div id="today-timetable-list" class="bell-list"></div>
     </section>
 
     <section class="card">
       <h2>🛠️ Tools & Backup</h2>
-      <p class="section-desc">Export your bells and settings to a file for safekeeping, or restore from a previous export.</p>
+      <p class="section-desc">Export your bells, settings, and custom sounds to a file for safekeeping, or restore from a previous export.</p>
 
       <div class="btn-row">
         <button id="export-backup-btn" class="btn btn-primary">⬇ Export Backup</button>
@@ -116,7 +125,15 @@
           <option value="temple">Temple Bell</option>
           <option value="chime">Soft Chime</option>
           <option value="alert">Alert Tone</option>
+          <option value="custom">Custom Sound (upload)</option>
         </select>
+
+        <div id="custom-sound-field" style="display:none;">
+          <label for="custom-sound-input">Upload Sound</label>
+          <input type="file" id="custom-sound-input" accept="audio/*" />
+          <p id="custom-sound-filename" class="section-desc"></p>
+          <p class="section-desc">Stored on this device only, in its own dedicated audio storage.</p>
+        </div>
 
         <label for="bell-announcement">Spoken Announcement (Optional)</label>
         <input type="text" id="bell-announcement" placeholder="e.g. Please proceed to the assembly hall" />
@@ -143,6 +160,7 @@
   </div>
 
   <script src="js/storage.js"></script>
+  <script src="js/audioStore.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/scheduler.js"></script>
   <script src="js/backup.js"></script>
